@@ -5,7 +5,7 @@
         <img src="../../images/ts-bg.png" class="mask-bg">
         <div class="content">
           <h1></h1>
-          <p>您还未输入手机号码参与抽奖<br>赶紧行动吧！</p>
+          <p>{{text1}}<br>{{text2}}<br>{{text3}}</p>
           <div class="btn"  @click="closeTip">
             <img src="../../images/yes-btn.png">
           </div>
@@ -20,12 +20,10 @@
   export default {
     data(){
       return{
-        flag:true
+        flag:true,
       }
     },
-    mounted(){
-
-    },
+    props: ['text1','text2','text3'],
     methods: {
       closeTip(){
         this.flag=false;

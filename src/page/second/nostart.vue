@@ -4,36 +4,36 @@
       <img src="../../images/not-draw.jpg" class="bg">
       <div class="b-slider">
         <div class="copy-text">
-          723013243500
+          {{yhq}}
         </div>
         <div class="zhusi">在伊利微商城购买液态奶品，满50元即可获得立减10元优惠券</div>
-        <div class="go-duihuan">
-          <img src="../../images/go-duihuan.png">
-        </div>
+        <a href="https://yili.m.tmall.com/">
+          <div class="go-duihuan">
+            <img src="../../images/go-duihuan.png">
+          </div>
+        </a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import $ from 'src/plugins/jquery.min.js'
   export default {
     data(){
       return{
-        flag:true
+        yhq:localStorage.getItem("yhq")
       }
     },
-    mounted(){
-
-    },
-    methods: {
-      closeTip(){
-        this.flag=false;
-        setTimeout(_ => {
-          this.flag=true;
-        }, 300);
+    created () {
+      let that=this;
+      if(!localStorage.getItem("yhq")){
+        let start='6252';
+        let end=Math.floor(Math.random()*1000);
+        let con=Math.floor(Math.random()*10000);
+        that.yhq=start+con+end;
+        localStorage.setItem("yhq",that.yhq)
       }
-    }
+    },
   }
 </script>
 

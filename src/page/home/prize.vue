@@ -5,71 +5,85 @@
         我的奖品
       </div>
       <div class="content">
-        <div class="perize-list clear">
-          <div class="left">
-            <img src="../../images/clothes.png">
-          </div>
-          <div class="right">
-            <div class="top">皇马官方球衣</div>
-            <!--em的内容已经透明处理  不需要处理-->
-            <div class="con"><em>2016.09.20  13：00</em></div>
-            <div class="bottom">
-              <a href="javascript:;" class="watch-show" @click="gologist()">查看</a>
+        <div v-if="prize === 'one'">
+          <div class="perize-list clear">
+            <div class="left">
+              <img src="../../images/clothes.png">
+            </div>
+            <div class="right">
+              <div class="top">皇马官方球衣</div>
+              <!--em的内容已经透明处理  不需要处理-->
+              <div class="con"><em>2016.09.20  13：00</em></div>
+              <div class="bottom">
+                <router-link to="/logistics">
+                  <a class="watch-show">查看</a>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
-        <div class="perize-list clear">
-          <div class="left">
-            <img src="../../images/zuqiu.png">
-          </div>
-          <div class="right">
-            <div class="top">皇马官方足球</div>
-            <div class="con"><em>2016.09.20  13：00</em></div>
-            <div class="bottom">
-              <a href="javascript:;" class="watch-show" @click="gologist()">查看</a>
+        <div v-else-if="prize === 'two'">
+          <div class="perize-list clear">
+            <div class="left">
+              <img src="../../images/zuqiu.png">
+            </div>
+            <div class="right">
+              <div class="top">皇马官方足球</div>
+              <div class="con"><em>2016.09.20  13：00</em></div>
+              <div class="bottom">
+                <router-link to="/logistics">
+                  <a class="watch-show">查看</a>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="perize-list clear">
-          <div class="left">
-            <img src="../../images/jp-mike.png">
-          </div>
-          <div class="right">
-            <div class="top">伊利16入纯牛奶</div>
-            <div class="con"><em>2016.09.20  13：00</em></div>
-            <div class="bottom">
-              <a href="javascript:;" class="watch-show" @click="gologist()">查看</a>
+        <div v-else-if="prize === 'three'">
+          <div class="perize-list clear">
+            <div class="left">
+              <img src="../../images/jp-mike.png">
             </div>
-          </div>
-        </div>
-
-        <div class="perize-list clear">
-          <div class="left">
-            <img src="../../images/yhquan.png">
-          </div>
-          <div class="right">
-            <div class="top">优惠券（长按复制）</div>
-            <div class="con">
-              <ul>
-                <li>723013243500</li>
-              </ul>
-            </div>
-            <div class="bottom">
-              <a href="javascript:;" class="use-show">立即使用</a>
+            <div class="right">
+              <div class="top">伊利16入纯牛奶</div>
+              <div class="con"><em>2016.09.20  13：00</em></div>
+              <div class="bottom">
+                <router-link to="/logistics">
+                  <a class="watch-show">查看</a>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="perize-list clear">
-          <div class="left">
-            <img src="../../images/lotter.png">
+        <div v-if="scendflag">
+          <div class="perize-list clear">
+            <div class="left">
+              <img src="../../images/yhquan.png">
+            </div>
+            <div class="right">
+              <div class="top">优惠券（长按复制）</div>
+              <div class="con">
+                <ul>
+                  <li>{{yhq}}</li>
+                </ul>
+              </div>
+              <div class="bottom">
+                <a href="https://yili.m.tmall.com/" class="use-show">立即使用</a>
+              </div>
+            </div>
           </div>
-          <div class="right">
-            <div class="top">皇马训练营入场券</div>
-            <div class="con">
-              <div class="con-in clear"><i>您报名的是：</i><br><span>北京市</span><br><span>2017年7月16日</span><br><span>上午场活动</span><br></div>
-              <div class="con-in clear"><i>咨询热线：</i><br><span>400-008-6080</span></div>
+        </div>
+        <div v-if="first_prize">
+          <div class="perize-list clear">
+            <div class="left">
+              <img src="../../images/lotter.png">
+            </div>
+            <div class="right">
+              <div class="top">皇马训练营入场券</div>
+              <div class="con">
+                <div class="con-in clear"><i>您报名的是：</i><br><span>北京市</span><br><span>2017年7月16日</span><br><span>上午场活动</span><br></div>
+                <div class="con-in clear"><i>咨询热线：</i><br><span>400-008-6080</span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -79,12 +93,14 @@
 </template>
 
 <script>
-  import $ from 'src/plugins/jquery.min.js'
-
   export default {
     data(){
       return{
         bgflag:true,
+        yhq:localStorage.getItem("yhq"),
+        first_prize:false,
+        scendflag:false,
+        prize:'one',//one为一等奖，two为二等奖,three为三等奖
       }
     },
     created () {
@@ -94,9 +110,7 @@
       let that=this;
     },
     methods:{
-      gologist(){
-        this.$router.push('/logistics')
-      }
+
     }
   }
 </script>

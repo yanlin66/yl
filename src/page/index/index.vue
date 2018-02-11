@@ -7,11 +7,14 @@
           <img src="../../images/index_logo.png">
         </div>
         <div class="r">
-          <a class="prize"  @click = "goprize()">我的奖品</a>
+          <router-link to="/prize">
+            <a class="prize">我的奖品</a>
+          </router-link>
           <a class="rule" @click = "maskrule()">活动规则</a>
           <a href="javascript:;" class="gz_active" @click = "gzactive()">关注活动</a>
-          <div class="a-play">
-            <img src="../../images/play.png" attrsrc="../../images/play-push.png" class="music">
+          <div class="a-play" @click="music()">
+            <img src="../../images/play.png" class="music" v-if="musicflag">
+            <img src="../../images/play-push.png" v-else>
           </div>
         </div>
         <div class="index_title">
@@ -31,10 +34,6 @@
             <a href="javascript:;" @click="gofirst()"><img src="../../images/right_btn.png"></a>
           </div>
         </div>
-        <!--活动已结束
-        <div class="close_active">
-            <img src="../../images/close_active.png">
-        </div>-->
       </div>
       <!--一天内已抽奖的提示-->
       <maskTs></maskTs>
@@ -45,18 +44,17 @@
     </div>
   </div>
 </template>
-
 <script>
   import maskRule from 'src/components/mask/rule'
   import maskTs from 'src/components/mask/repeat'
   import maskEnroll from 'src/components/mask/enroll'
   import maskGz from 'src/components/mask/gz'
   import $ from 'src/plugins/jquery.min.js'
-
   export default {
     data(){
       return{
         gzflag:false,
+        musicflag:true
       }
     },
     created () {
@@ -69,27 +67,36 @@
       maskRule,maskTs,maskEnroll,maskGz
     },
     methods:{
+      //音乐控制
+      music(){
+        if(this.musicflag){
+          this.musicflag=false;
+        }else{
+          this.musicflag=true;
+        }
+      },
+      //活动规则
       maskrule(){
         $(".mask_rule").fadeIn();
-      },
-      goprize(){
-        this.$router.push('/prize')
-      },
-      gofirst(){
-        this.$router.push('/firstone')
-      },
-      gosecond(){
-        this.$router.push('/secondone')
       },
       rule (){
         this.$refs.child.callMethod() // 方法2
       },
+      //关注公众号
+      gzactive(){
+        $(".mask_gz").fadeIn();
+      },
       gz(){
         this.$refs.child.close();
       },
-      gzactive(){
-        $(".mask_gz").fadeIn();
-      }
+      //活动一
+      gofirst(){
+        this.$router.push('/firstone')
+      },
+      //活动二
+      gosecond(){
+        this.$router.push('/second')
+      },
     }
   }
 </script>
@@ -156,6 +163,17 @@
           width: 100%;
         }
       }
+    }
+  }
+  .music{
+    animation:3s music ease infinite;
+  }
+  @keyframes music {
+    0%{
+      transform: rotate(0deg);
+    }
+    100%{
+      transform: rotate(360deg);
     }
   }
 </style>

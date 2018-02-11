@@ -11,7 +11,6 @@
 </template>
 
 <script>
-  import $ from 'src/plugins/jquery.min.js'
   export default {
     data(){
       return{

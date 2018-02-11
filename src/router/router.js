@@ -12,17 +12,16 @@ const firstno=r => require.ensure([], () => r(require('../page/first/no')), 'fir
 const firstform=r => require.ensure([], () => r(require('../page/first/form')), 'firstform');
 
 //活动二：定时抽奖
-const secondone = r => require.ensure([], () => r(require('../page/second/one')), 'secondone');
+const second = r => require.ensure([], () => r(require('../page/second/index')), 'second');
 const nostart = r => require.ensure([], () => r(require('../page/second/nostart')), 'nostart');
 const whyprize = r => require.ensure([], () => r(require('../page/second/why')), 'whyprize');
 const noprize = r => require.ensure([], () => r(require('../page/second/noprize')), 'noprize');
-const oneprize = r => require.ensure([], () => r(require('../page/second/oneprize')), 'oneprize');
-const twoprize = r => require.ensure([], () => r(require('../page/second/twoprize')), 'twoprize');
-const threeprize = r => require.ensure([], () => r(require('../page/second/threeprize')), 'threeprize');
+const winning = r => require.ensure([], () => r(require('../page/second/winning')), 'winning');
 
 //个人中心
 const prize =r => require.ensure([], () => r(require('../page/home/prize')), 'prize');
 const logistics =r => require.ensure([], () => r(require('../page/home/logistics')), 'logistics');
+
 export default [{
     path: '/',
     component: App, //顶层路由，对应index.html
@@ -70,8 +69,8 @@ export default [{
 
       //活动二
       {
-        path:'/secondone',
-        component:secondone
+        path:'/second',
+        component:second
       },
       {
         path:'/nostart',
@@ -86,17 +85,10 @@ export default [{
         component:noprize
       },
       {
-        path:'/oneprize',
-        component:oneprize
+        path:'/winning',
+        component:winning
       },
-      {
-        path:'/twoprize',
-        component:twoprize
-      },
-      {
-        path:'/threeprize',
-        component:threeprize
-      },
+
 
       //奖品中心
       {

@@ -1,54 +1,62 @@
 <template>
-  <div class="mask_enroll" id="maskEnroll">
-    <div class="mask_content">
-      <img src="../../images/notes.png">
-      <div class="mask_con">
-        <div class="top">
-          <label>
-            <span>活动城市</span>
-            <select name="city">
-              <option value="cd.id" v-for="cd in cityData" :key="cd.id">{{cd.name}}</option>
-            </select>
-          </label>
-          <label>
-            <span>宝贝年龄</span>
-            <select name="age">
-              <option value="ag.age" v-for="ag in ageData" :key="ag.id">{{ag.age}}</option>
-            </select>
-          </label>
-          <label>
-            <span>活动日期</span>
-            <select name="time">
-              <option value="tg.time" v-for="tg in timeData" :key="tg.id">{{tg.time}}</option>
-            </select>
-          </label>
-          <label>
-            <span>活动场次</span>
-            <select name="type">
-              <option value="pg.type" v-for="pg in typeData" :key="pg.id">{{pg.type}}</option>
-            </select>
-          </label>
-          <label class="active">
-            <span>手机号码</span><input type="tel" maxlength="11">
-          </label>
-          <button class="bm_btn" @click="toform()"></button>
-        </div>
-        <div class="bottom">
-          <h1>-活动规则-</h1>
-          <p>尊敬的家长您好：<br>
-            &nbsp;&nbsp;感谢您报名“qq星训练营”，我们将倾全营之力为孩子的训练提供优质的服务！为了让您的孩子度过一个安全、快乐的营期，请仔细阅读“活动规则”！ 当您报名时，就表示你本次已愿意和我们按照“活动规则”达成一致协议。
-          </p>
+  <div>
+    <div class="mask_enroll" id="maskEnroll">
+      <div class="mask_content">
+        <img src="../../images/notes.png">
+        <div class="mask_con">
+          <div class="top">
+            <label>
+              <span>活动城市</span>
+              <select name="city" v-model="city">
+                <option :value="cd.name" v-for="cd in cityData" :key="cd.id">{{cd.name}}</option>
+              </select>
+            </label>
+            <label>
+              <span>宝贝年龄</span>
+              <select name="age" v-model="age">
+                <option :value="ag.age" v-for="ag in ageData" :key="ag.id">{{ag.age}}</option>
+              </select>
+            </label>
+            <label>
+              <span>活动日期</span>
+              <select name="time" v-model="time">
+                <option :value="tg.time" v-for="tg in timeData" :key="tg.id">{{tg.time}}</option>
+              </select>
+            </label>
+            <label>
+              <span>活动场次</span>
+              <select name="type" v-model="type">
+                <option :value="pg.type" v-for="pg in typeData" :key="pg.id">{{pg.type}}</option>
+              </select>
+            </label>
+            <label class="active">
+              <span>手机号码</span><input type="tel" maxlength="11" v-model="tel">
+            </label>
+            <button class="bm_btn" @click="toform()"></button>
+          </div>
+          <div class="bottom">
+            <h1>-活动规则-</h1>
+            <p>尊敬的家长您好：<br>
+              &nbsp;&nbsp;感谢您报名“qq星训练营”，我们将倾全营之力为孩子的训练提供优质的服务！为了让您的孩子度过一个安全、快乐的营期，请仔细阅读“活动规则”！ 当您报名时，就表示你本次已愿意和我们按照“活动规则”达成一致协议。
+            </p>
+          </div>
         </div>
       </div>
     </div>
+    <maskError ref="child" @click="closeTip" :text1="text1" :text2="text2" :text3="text3"></maskError>
   </div>
 </template>
 
 <script>
   import $ from 'src/plugins/jquery.min.js'
+  import maskError from 'src/components/mask/error'
+
   export default {
     data(){
       return{
+        text1:'',
+        text2:'',
+        text3:'',
         cityData:[
           {'id':1,'name':'北京市'},{'id':2,'name':'上海市'},{'id':3,'name':'深圳市'},{'id':4,'name':'青岛市'}
           ],
@@ -60,15 +68,53 @@
         ],
         typeData:[
           {'id':1,'type':'上午场'},{'id':2,'type':'下午场'},
-        ]
+        ],
+        city:'',
+        age:'',
+        time:'',
+        type:'',
+        tel:''
       }
     },
-    mounted(){
-
+    components:{
+      maskError
     },
     methods: {
+      closeTip(){
+        this.$refs.child.callMethod()
+      },
       toform(){
-        this.$router.push({ path:'/firstthree'})
+        let that=this;
+        if(!that.city || !that.age || !that.time || !that.type){
+          that.text1='信息不完整';
+          that.text2='请重新选择';
+          that.text3='继续参加活动';
+          $(".mask_error").fadeIn();
+          return false;
+        }
+        if(!that.tel){
+          that.text1='您还未输入';
+          that.text2='手机号码';
+          that.text3='继续参加活动';
+          $(".mask_error").fadeIn();
+          return false;
+        }else{
+          let myreg=/^1[0-9]{10}$/;
+          if (!myreg.test(that.tel)) {
+            that.text1='手机号码格式有误';
+            that.text2='请重新输入';
+            that.text3='继续参加活动';
+            $(".mask_error").fadeIn();
+            return false;
+          }
+        }
+        //ajax信息提交
+
+        //保存选择的城市和场次和时间
+        sessionStorage.setItem('city',that.city);
+        sessionStorage.setItem('time',that.time);
+        sessionStorage.setItem('type',that.type);
+        this.$router.push({ path:'/firstthree',query:{flag:true}})
       },
     }
   }

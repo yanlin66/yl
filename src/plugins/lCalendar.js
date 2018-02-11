@@ -1,14 +1,9 @@
 /**
  * LCalendar移动端日期时间选择控件
- *
  * version:1.7.1
- *
  * author:黄磊
- *
  * git:https://github.com/xfhxbb/LCalendar
- *
  * Copyright 2016
- *
  * Licensed under MIT
  *
  * 最近修改于： 2016-6-12 17:22:20

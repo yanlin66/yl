@@ -5,42 +5,41 @@
         订单详情
       </div>
       <div class="banner">
-        <img src="../../images/zuqiu.png">
+        <div v-if="prize.level === '1'">
+          <img src="../../images/clothes.png">
+        </div>
+        <div v-else-if="prize.level === '2'">
+          <img src="../../images/zuqiu.png">
+        </div>
+        <div v-else-if="prize.level === '3'">
+          <img src="../../images/jp-mike.png">
+        </div>
+
       </div>
       <ul class="person_info">
         <li>
-          <em>收货人姓名：</em><span>刘萌萌</span>
+          <em>收货人姓名：</em><span>{{prize.name}}</span>
         </li>
         <li>
-          <em>收货人联系电话：</em><span>13689752465</span>
+          <em>收货人联系电话：</em><span>{{prize.tel}}</span>
         </li>
         <li>
-          <em>收货人地址：</em><span>北京市海淀区西单商场8号</span>
+          <em>收货人地址：</em><span>{{prize.address}}</span>
         </li>
         <li>
-          <em>物流信息：</em><span>申通快递<i>13654789523</i></span>
+          <em>物流信息：</em>
+          <span>
+            {{prize.logistics.lname}}
+            <i>{{prize.logistics.ordernum}}</i>
+          </span>
         </li>
       </ul>
       <div class="garphical-list">
-        <div class="list">
+        <div class="list" v-for="item in loginfo.process">
           <div class="l"><div class="wq"></div></div>
           <div class="r">
-            <p>您的订单已出库，交由申通快递，单号：0123654796</p>
-            <span>2016-07-12&nbsp;&nbsp;13:30:32</span>
-          </div>
-        </div>
-        <div class="list">
-          <div class="l"></div>
-          <div class="r">
-            <p>您的订单已出库，准备出库。</p>
-            <span>2016-07-12&nbsp;&nbsp;13:30:32</span>
-          </div>
-        </div>
-        <div class="list">
-          <div class="l"></div>
-          <div class="r">
-            <p>您的订单已出库，准备出库。</p>
-            <span>2016-07-12&nbsp;&nbsp;13:30:32</span>
+            <p>{{item.content}}</p>
+            <span>{{item.time}}</span>
           </div>
         </div>
       </div>
@@ -49,12 +48,24 @@
 </template>
 
 <script>
-  import $ from 'src/plugins/jquery.min.js'
-
   export default {
     data(){
       return{
-        bgflag:true,
+        prize:{
+          name:'张三',
+          level:'2',
+          tel:'13689752465',
+          address:'北京市海淀区西单商场8号',
+          logistics:{lname:'申通快递',ordernum:'S5100000365'}
+        },
+        loginfo:{
+          ordernum:'S5100000365',
+          process:[
+            {content:'您的订单等待批示',time:'2017-07-10 13:30:32'},
+            {content:'您的订单批示通过，等待物流上门取件',time:'2017-07-11 13:30:32'},
+            {content:'您的订单已出库，交由申通快递',time:'2017-07-11 16:30:32'},
+          ]
+        }
       }
     },
     created () {
@@ -64,12 +75,7 @@
       let that=this;
     },
     methods:{
-      start(){
-        this.bgflag=false;
-      },
-      goform(){
-        this.$router.push('/firstform')
-      }
+
     }
   }
 </script>

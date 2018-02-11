@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="warp">
-      <img src="../../images/load-bg.jpg" alt="" class="bg">
+      <img src="../../images/load-bg.jpg" class="bg">
       <div class="center">
-        <img src="../../images/timg.png" alt="" class="timg jump">
+        <img src="../../images/timg.png" class="timg jump">
         <div class="load-warp">
           <span>Loading...</span>
           <div class="load-bar">
@@ -16,8 +16,6 @@
 </template>
 
 <script>
-  import $ from 'src/plugins/jquery.min.js'
-
   export default {
     data(){
       return{
@@ -33,18 +31,11 @@
       let t=setInterval(_ => {
         if(that.num < 100) {
           that.num+=10;
-          console.log(that.num)
         } else {
           clearInterval(t);
           this.$router.push('/index')
         }
-      }, 300);
-    },
-    components:{
-
-    },
-    methods:{
-
+      }, 100);
     }
   }
 </script>

@@ -8,7 +8,7 @@
         </div>
         <div class="r">
           <a class="prize">我的奖品</a>
-          <a class="rule"  @click = "maskrule()">活动规则</a>
+          <a class="rule">活动规则</a>
         </div>
         <div class="index_title">
           <img src="../../images/index_header.png">
@@ -27,13 +27,7 @@
             <a href="javascript:;" @click="gofist()"><img src="../../images/right_btn.png"></a>
           </div>
         </div>
-        <!--活动已结束
-        <div class="close_active">
-            <img src="../../images/close_active.png">
-        </div>-->
       </div>
-      <!--活动规则-->
-      <maskRule ref="child" @click="click"></maskRule>
       <!--报名须知-->
       <maskEnroll></maskEnroll>
     </div>
@@ -63,14 +57,8 @@
       maskRule,maskTs,maskError,maskEnroll
     },
     methods:{
-      maskrule(){
-        $(".mask_rule").fadeIn();
-      },
       gofist(){
         this.$router.push('/firstone')
-      },
-      click (){
-        this.$refs.child.callMethod() // 方法2
       },
     }
   }
