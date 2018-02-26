@@ -16,7 +16,7 @@
         <div class="count-down">
           <div class="count-warp">
             <div class="count-show clear">
-              <span id="t_h">01</span><span id="t_m">12</span><span id="t_s">13</span>
+              <span id="t_h">{{th}}</span><span id="t_m">{{tm}}</span><span id="t_s">{{ts}}</span>
             </div>
           </div>
         </div>
@@ -77,6 +77,9 @@
         text2:'',
         text3:'',
 
+        th:'00',
+        tm:'00',
+        ts:'00',
         yesflag:false,
         num:0,
         prizestatus:-1,
@@ -87,6 +90,38 @@
     },
     mounted(){
       let that=this;
+      let now = new Date(),hour = now.getHours()
+      //设置下一时间
+      let next=parseInt(hour)+1;
+      let times = '2018-02-26 '+next+':00:00';
+      //console.log(tim2);
+      //计时器
+      setInterval(_=> {
+        let EndTime = new Date(Date.parse(times.replace(/-/g, "/"))); //截止时间
+        let NowTime = new Date();
+        let t = EndTime.getTime() - NowTime.getTime();
+        let h = Math.floor(t / 1000 / 60 / 60 % 24);
+        let m = Math.floor(t / 1000 / 60 % 60);
+        let s = Math.floor(t / 1000 % 60);
+        if (t <= 0) {
+          that.th = 0 + "0";
+          that.tm = 0 + "0";
+          that.ts = 0 + "0";
+        } else {
+          that.th = h + "";
+          that.tm = m + "";
+          that.ts = s + "";
+          if (h < 10) {
+            that.th = "0" + h;
+          }
+          if (m < 10) {
+            that.tm = "0" + m;
+          }
+          if (s < 10) {
+            that.ts = "0" + s;
+          }
+        }
+      }, 1000)
     },
     components:{
       maskRule,maskError,maskYes

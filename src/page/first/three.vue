@@ -12,16 +12,31 @@
           <div class="ectr_logo">
             <img src="../../images/index_logo.png">
           </div>
+          <div class="qqx"><img src="../../images/QQxing.png" ></div>
           <div class="ectr_title">
-            <img src="../../images/index_header.png">
+            <img src="../../images/two-title.png" >
+            <img src="../../images/once-more.png"  class="once-more">
           </div>
-          <div class="ectr_timg" @click="golink()"></div>
+          <div class="ectr_net">
+            <img src="../../images/qwang.png" >
+          </div>
+          <!--<div class="ectr_title">-->
+            <!--<img src="../../images/index_header.png">-->
+          <!--</div>-->
+          <div class="ectr_timg" @touchstart="touchstart()" @touchmove="touchmove()"  @touchend="touchend()"></div>
         </div>
         <div class="energy-bar">
           <div class="bar-ruler"></div>
-          <div class="bar-num"></div>
+          <div class="bar-num" :style="'height:'+barnum+'rem'"></div>
         </div>
       </div>
+      <img src="../../images/tizuqiu.png" class="timgurl" hidden>
+      <img src="../../images/timg/ball0001.png" class="timgimg" hidden>
+      <img src="../../images/timg/ball0002.png" class="timgimg" hidden>
+      <img src="../../images/timg/ball0003.png" class="timgimg" hidden>
+      <img src="../../images/timg/ball0004.png" class="timgimg" hidden>
+      <img src="../../images/timg/ball0005.png" class="timgimg" hidden>
+      <img src="../../images/timg/ball0006.png" class="timgimg" hidden>
     </div>
   </div>
 </template>
@@ -33,20 +48,112 @@
     data(){
       return{
         bgflag:true,
+        barnum:'2',
+        bartype:'',
+        t:'',
+        n:1,
+        fruit:true,
+        degree:3,
       }
     },
     created () {
       let that=this;
     },
     mounted(){
-      let that=this;
+
     },
     methods:{
       start(){
         this.bgflag=false;
       },
-      golink(){
-        this.$router.push('/firstyes')
+      touchstart(){
+        let that=this;
+        that.t=setInterval(_ => {
+          if(that.barnum < 4.2) {
+            that.barnum+=0.3;
+          } else {
+            that.barnum=0;
+          }
+        }, 100);
+      },
+      touchmove(){
+        console.log(2)
+      },
+      touchend(){
+        let that=this;
+        clearInterval(that.t);
+        if(that.barnum>4.1){
+          console.log('力气过大');
+          that.bartype='力气过大'
+        }else if(that.barnum<2.8){
+          console.log('力气过小');
+          that.bartype='力气过小'
+        }else{
+          console.log('获取数据');
+          that.bartype='获取数据'
+        }
+        let t1 = setInterval(_=> {
+          that.n++;
+          if (that.n >= 7) {
+            that.n = 1;
+          }
+          let timgurl=$('.timgimg').eq(that.n).attr("src");
+          $(".ectr_timg").css("background-image", "url(" + timgurl + ")");
+        }, 100);
+        switch (that.bartype){
+          case '力气过小':
+            $(".ectr_timg").addClass("shoot-no");
+            document.querySelector(".shoot-no").addEventListener("webkitAnimationEnd", function () {
+              //动画重复运动时的事件
+              clearInterval(t1);
+              that.degree--;
+              if (that.degree < 0) {
+                setTimeout(function () {
+                  $(".once-more").hide();
+                  that.$router.push('/firstno');
+                }, 500);
+              } else {
+                $(".once-more").show();
+                setTimeout(function () {
+                  $(".ectr_timg").removeClass("shoot-no").css({"background-image": "url("+$('.timgurl').attr("src")+")"});
+                  $(".once-more").hide();
+                }, 1500);
+              }
+            }, false);
+            break;
+          case '力气过大':
+            $(".ectr_timg").addClass("shoot-out");
+            document.querySelector(".shoot-out").addEventListener("webkitAnimationEnd", function () {
+              clearInterval(t1);
+              //动画重复运动时的事件
+              that.degree--;
+              if (that.degree < 0) {
+                setTimeout(function () {
+                  $(".once-more").hide();
+                  that.$router.push('/firstno');
+                }, 500)
+              } else {
+                $(".once-more").show();
+                setTimeout(function () {
+                  $(".ectr_timg").removeClass("shoot-out").css({"background-image": "url("+$('.timgurl').attr("src")+")"});
+                  $(".once-more").hide();
+                }, 1500);
+              }
+            }, false);
+            break;
+          case '获取数据':
+              //能量条刚好
+              $(".ectr_timg").addClass("shoot-yes");
+              document.querySelector(".shoot-yes").addEventListener("webkitAnimationEnd", function () {
+                //动画重复运动时的事件
+                clearInterval(t1);
+                setTimeout(function () {
+                  that.$router.push('/firstyes');
+                }, 1000)
+              }, false);
+            break;
+        }
+
       }
     }
   }
@@ -102,8 +209,8 @@
     }
   }
   /*
-*能量条
-*/
+  *能量条
+  */
   .energy-bar{
     width: .8rem;height: 4.5rem;border-radius: 5px;
     background-color: rgba(0,0,0,0);box-shadow:  0 0 6px rgba(0,0,0,.8) inset;
