@@ -72,7 +72,7 @@ Element UI <br />
 Mysql数据库
 
 #### 预览地址
-[伊利皇马活动](http://palpitation.shop/web/yl/ "伊利皇马活动") 
+[伊利皇马活动](http://web.palpitation.shop/Vue-yl/ "伊利皇马活动") 
 
 #### 开发人员
 > 自然是作者啦（~v~）
